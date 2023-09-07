@@ -16,4 +16,6 @@ public interface LoanApplicationRepository {
 
     Integer countOfInactiveOrAuditingLoanApplicatin(final String identification);
 
+    void loanApplicationOnReview(String id);
+
 }

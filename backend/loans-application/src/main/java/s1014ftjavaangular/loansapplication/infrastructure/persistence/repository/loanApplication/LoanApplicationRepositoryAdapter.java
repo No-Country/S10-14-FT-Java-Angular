@@ -24,7 +24,20 @@ public class LoanApplicationRepositoryAdapter implements LoanApplicationReposito
     }
 
     @Override
-    public void updateLoanApplicationStatus(String id, Status status ) {
+    public void loanApplicationOnReview(String id) {
+        var entity = jpaRepository.findById(id).get();
+        if (entity.getJobInformation() == null && entity.getGuarantor() == null){
+            throw new RuntimeException("Please fill the Job Information and Guarantor fields");
+        }
+        if (!entity.getStatus().equals(Status.INCOMPLETE)){
+            throw new RuntimeException("You cannot update the loan application");
+        }
+        entity.setStatus(Status.AUDITING);
+        jpaRepository.save(entity);
+    }
+
+    @Override
+    public void updateLoanApplicationStatus(String id, Status status) {
         var entity = jpaRepository.findById(id).get();
         if (!entity.getStatus().equals(Status.AUDITING)){
             throw new RuntimeException("It is not possible to update an application that is not being auditing");
