@@ -6,20 +6,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import s1014ftjavaangular.loansapplication.domain.model.dto.request.LoanApplicationDto;
-import s1014ftjavaangular.loansapplication.domain.usecase.FindByIdLoanAppUseCase;
+import s1014ftjavaangular.loansapplication.domain.model.dto.LoanApplicationForCustomer;
+import s1014ftjavaangular.loansapplication.domain.usecase.AllLoanApplicationFromCustomerUseCase;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/loanapplication")
-public class LoanAppFindByIdController {
-    private final FindByIdLoanAppUseCase useCase;
+public class AllLoanApplicationFromCustomerController {
+    private final AllLoanApplicationFromCustomerUseCase useCase;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<LoanApplicationDto> getAllById(@PathVariable String id){
-        var response = useCase.findById(id);
-
-        return response == null
+    @GetMapping(value = "/customers/{id}")
+    public ResponseEntity<List<LoanApplicationForCustomer>> findLoansApplication(@PathVariable("id") String customerId){
+        var response = useCase.findByCustomerId(customerId);
+        return (response == null)
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(response);
     }

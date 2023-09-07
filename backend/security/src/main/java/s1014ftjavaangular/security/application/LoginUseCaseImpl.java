@@ -16,6 +16,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
     @Override
     public LoginResponse login(final String email, final String password) {
         var accountAuthenticated = authService.authenticate(email, password);
+
         var token = provider.generateToken(accountAuthenticated);
 
         var loginResponse = new LoginResponse();
