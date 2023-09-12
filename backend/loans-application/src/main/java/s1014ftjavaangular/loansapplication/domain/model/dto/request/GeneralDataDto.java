@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import s1014ftjavaangular.loansapplication.domain.model.enums.IdentificationType;
 
 import java.time.LocalDate;
-import java.util.List;
 
 
 @NoArgsConstructor
@@ -41,7 +40,7 @@ public class GeneralDataDto {
     private LocalDate birthdate;
 
     @NotEmpty(message = "Field required")
-    private String nationality ;
+    private String nationality;
 
     @NotNull(message = "Field required")
     private Double requestedAmount;

@@ -35,13 +35,19 @@ spring:
         locator:
           enabled: false
       routes:
+        - id: loans-application
+          uri: lb://loans-application
+          predicates:
+            - Path=/api/v1/jobinformation/**, /api/v1/generaldata/**, /api/v1/guarantor/**, /api/v1/loanapplication/**
+          filters:
+            - CustomAuthenticationFilter
         - id: user-service
             #uri: https://s10-14-ft-api-users.azurewebsites.net
           uri: lb://user-service
           predicates:
             - name: Path
               args:
-                pattern: "/api/v1/**"
+                pattern: "/api/v1/users/**"
           filters:
             - CustomAuthenticationFilter
         - id: security-current-session
@@ -51,21 +57,13 @@ spring:
             - Path=/api/accounts/current-session
           filters:
             - CustomAuthenticationFilter
-        - id: loans-application
-          uri: lb://loans-application
-          predicates:
-            - name: Path
-              args:
-                pattern: "/api/**"
-          filters:
-            - CustomAuthenticationFilter
         - id: security
         #  uri: https://s10-14-ft-api-security.azurewebsites.net
           uri: http://localhost:8081
           predicates:
             - name: Path
               args:
-                pattern: "/api/**"
+                pattern: "/api/accounts/**"
 
 eureka:
   client:

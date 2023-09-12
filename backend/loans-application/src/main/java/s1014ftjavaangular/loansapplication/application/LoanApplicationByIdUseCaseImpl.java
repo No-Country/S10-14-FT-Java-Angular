@@ -14,6 +14,7 @@ public class LoanApplicationByIdUseCaseImpl implements LoanApplicationByIdUseCas
     @Override
     public LoanApplication findById(String id) {
         var response = repository.findById(id);
+
         return response;
     }
 }

@@ -17,7 +17,7 @@ public class JobInformationUpdateController {
     private final UpdateJobInformationUseCase updateJobInformationUseCase;
 
     @PutMapping
-    private ResponseEntity<Void> updateJobInformation(@Valid @RequestBody JobInformationDto request){
+    private ResponseEntity<Void> updateJobInformation(@Valid @RequestBody JobInformationDto request) {
         updateJobInformationUseCase.updateJobInformation(request);
         return ResponseEntity.noContent().build();
     }

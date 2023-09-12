@@ -1,4 +1,3 @@
-
 package s1014ftjavaangular.loansapplication.application;
 
 import lombok.RequiredArgsConstructor;
@@ -22,8 +21,11 @@ public class SaveJobInformationUseCaseImpl implements SaveJobInformationUseCase 
     @Override
     public void saveJobInformation(JobInformationDto request) {
         var loanApplication = loanApplicationRepository.findById(request.getLoanApplicationId());
+        if(loanApplication == null)
+            throw new ResourceAlreadyExists("ID "+request.getLoanApplicationId()+" is not registered for loan application");
 
-        if(loanApplication.getJobInformation() != null) throw new ResourceAlreadyExists("Job information is already registered");
+        if (loanApplication.getJobInformation() != null)
+            throw new ResourceAlreadyExists("Job information is already registered");
 
         repository.saveJobInformation(mapper.dtoToModel.apply(request), loanApplication);
     }

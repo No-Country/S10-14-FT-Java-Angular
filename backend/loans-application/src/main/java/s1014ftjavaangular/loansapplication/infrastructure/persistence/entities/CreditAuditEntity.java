@@ -15,7 +15,7 @@ import java.util.function.Function;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="credit_audit")
+@Table(name = "credit_audit")
 public class CreditAuditEntity {
 
     @Id
@@ -30,7 +30,7 @@ public class CreditAuditEntity {
 
     @JsonIgnore
     @ToString.Exclude
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "loan_application_id", referencedColumnName = "loan_application_id")
     private LoanApplicationEntity loansApplicationId;
 

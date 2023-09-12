@@ -7,7 +7,6 @@ import s1014ftjavaangular.loansapplication.infrastructure.persistence.entities.L
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface LoanApplicationJpaRepository extends JpaRepository<LoanApplicationEntity, String> {
 
@@ -18,20 +17,26 @@ public interface LoanApplicationJpaRepository extends JpaRepository<LoanApplicat
             la.request_amount AS requestedAmount,
             la.create_at AS createAt,
             la.status
-            FROM loans_application la
+            FROM loans_application AS la
             WHERE la.customer_id = :customerId
-            ORDER BY la.created_at DESC
+            ORDER BY la.create_at DESC
             """, nativeQuery = true)
     Optional<List<LoanApplicationForCustomer>> findByCustomerId(String customerId);
-//
-    @Query(value = "SELECT MAX(l.loan_application_number) FROM loans_application AS l", nativeQuery = true)
+
+    //
+    @Query(value = """
+            SELECT u.loan_application_number
+            FROM public.loans_application u
+            ORDER BY CAST(SUBSTRING(u.loan_application_number, 1, 4) AS INT) DESC, CAST(SUBSTRING(u.loan_application_number, 6, 2) AS INT) DESC
+            LIMIT 1
+            """, nativeQuery = true)
     Optional<String> findLastLoanApplicationNumber();
 
     @Query(value = """ 
             SELECT COUNT(*) 
             FROM loans_application AS la 
-            INNER JOIN general_data AS gd ON  la.loan_application_id = gd.loan_application_id 
-            WHERE la.status IN (0, 1)  AND gd.identification = :identification
+            INNER JOIN general_data AS gd ON  la.loan_application_id = gd.loan_application_id
+            WHERE (la.status = 1 OR la.status = 0) AND gd.identification = :identification
             """, nativeQuery = true)
     Integer countIncompleteOrAuditingStatusLoanApplication(String identification);
 }

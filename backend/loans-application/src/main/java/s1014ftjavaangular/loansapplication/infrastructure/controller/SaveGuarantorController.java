@@ -18,8 +18,8 @@ public class SaveGuarantorController {
     private final SaveGuarantorUseCase useCase;
 
     @PostMapping
-    private ResponseEntity<String> saveGuarantor(@Valid @RequestBody GuarantorDto request){
-            useCase.saveGuarantor(request);
-            return ResponseEntity.noContent().build();
+    private ResponseEntity<String> saveGuarantor(@Valid @RequestBody GuarantorDto request) {
+        useCase.saveGuarantor(request);
+        return ResponseEntity.noContent().build();
     }
 }

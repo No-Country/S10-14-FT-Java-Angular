@@ -17,7 +17,7 @@ public class GuarantorUpdateController {
     private final UpdateGuarantorUseCase updateGuarantorUseCase;
 
     @PutMapping
-    private ResponseEntity<Void> updateGuarantor(@Valid @RequestBody GuarantorDto request){
+    private ResponseEntity<Void> updateGuarantor(@Valid @RequestBody GuarantorDto request) {
         updateGuarantorUseCase.updateGuarantor(request);
         return ResponseEntity.noContent().build();
     }

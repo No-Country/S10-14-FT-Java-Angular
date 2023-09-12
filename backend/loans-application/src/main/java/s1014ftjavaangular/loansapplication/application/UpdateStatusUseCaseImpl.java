@@ -15,9 +15,10 @@ public class UpdateStatusUseCaseImpl implements UpdateStatusUseCase {
 
     @Override
     public void updateStatus(LoanApplicationStatusDto request) {
-        if(!request.getStatus().equals(Status.APPROVED) && request.getStatus().equals(Status.DECLINED)){
+        if (!request.getStatus().equals(Status.APPROVED) && request.getStatus().equals(Status.DECLINED)) {
             throw new RuntimeException("Please select a correct status");
         }
         repository.updateLoanApplicationStatus(request.getLoanApplicationId(), request.getStatus());
     }
+
 }

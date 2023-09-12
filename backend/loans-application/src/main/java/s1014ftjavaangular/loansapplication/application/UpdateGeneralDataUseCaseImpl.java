@@ -20,16 +20,14 @@ public class UpdateGeneralDataUseCaseImpl implements UpdateGeneralDataUseCase {
 
     @Override
     public void updateGeneralData(GeneralDataDto request) {
-       //Recupera el Loan Application por ID (Arroja una excepcion si no existe)
+        //Recupera el Loan Application por ID (Arroja una excepcion si no existe)
         var loanApplication = loanApplicationRepository.findById(request.getLoanApplicationId());
         //Verifica que la solicitud este en estado de "INCOMPLETE"
-        if(!loanApplication.getStatus().equals(Status.INCOMPLETE)){
+        if (!loanApplication.getStatus().equals(Status.INCOMPLETE)) {
             throw new RuntimeException("It is not possible to update an application that is no longer Incomplete");
         }
         //Si el requested amount de la request es distinto al de la base, llamo al metodo para que se actualice
-        log.info("loanApplication importe: {}", loanApplication.getRequestedAmount());
-        log.info("request importe: {}", request.getRequestedAmount());
-        if(request.getRequestedAmount() != loanApplication.getRequestedAmount()){
+        if (request.getRequestedAmount() != loanApplication.getRequestedAmount()) {
             log.info("dentro del if update general data");
             loanApplicationRepository.updateLoanApplication(request.getRequestedAmount(), request.getLoanApplicationId());
             loanApplication.setRequestedAmount(request.getRequestedAmount());
@@ -37,8 +35,10 @@ public class UpdateGeneralDataUseCaseImpl implements UpdateGeneralDataUseCase {
 
         //Se elimina el general data anterior
         generalDataRepository.deleteGeneralDataById(request.getLoanApplicationId());
+
         //Se mapea el DTO a Modelo
         var model = mapper.dtoToModel.apply(request);
+
         //Se vuelve a guardar el General Data
         generalDataRepository.saveGeneralData(model, loanApplication);
     }

@@ -20,18 +20,23 @@ public class UpdateGuarantorUseCaseImp implements UpdateGuarantorUseCase {
     public void updateGuarantor(GuarantorDto request) {
         //Recupera el Loan Application por ID (Arroja una excepcion si no existe)
         var loanApplication = loanApplicationRepository.findById(request.getLoanApplicationId());
+
         //Verifica que la solicitud este en estado de "INCOMPLETE"
-        if(!loanApplication.getStatus().equals(Status.INCOMPLETE)){
+        if (!loanApplication.getStatus().equals(Status.INCOMPLETE)) {
             throw new RuntimeException("It is not possible to update an application that is no longer Incomplete");
         }
+
         //Arroja un excepcion si no hay un registro de JobInformation con este ID
-        if(loanApplication.getGuarantor() == null){
-            throw new RuntimeException("No Guarantor record found with ID "+request.getLoanApplicationId());
+        if (loanApplication.getGuarantor() == null) {
+            throw new RuntimeException("No Guarantor record found with ID " + request.getLoanApplicationId());
         }
+
         //Se elimina el garante
         repository.deleteGuarantor(request.getLoanApplicationId());
+
         //Se mapea de DTO a Modelo
         var model = mapper.dtoToModel.apply(request);
+
         //Se vuelve a guardar el garante
         repository.saveGuarantor(model, loanApplication);
     }

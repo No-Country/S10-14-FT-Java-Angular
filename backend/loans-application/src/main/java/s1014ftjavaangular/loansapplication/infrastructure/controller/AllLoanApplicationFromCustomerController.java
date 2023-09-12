@@ -18,8 +18,9 @@ public class AllLoanApplicationFromCustomerController {
     private final AllLoanApplicationFromCustomerUseCase useCase;
 
     @GetMapping(value = "/customers/{id}")
-    public ResponseEntity<List<LoanApplicationForCustomer>> findLoansApplication(@PathVariable("id") String customerId){
+    public ResponseEntity<List<LoanApplicationForCustomer>> findLoansApplication(@PathVariable("id") String customerId) {
         var response = useCase.findByCustomerId(customerId);
+
         return (response == null)
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(response);

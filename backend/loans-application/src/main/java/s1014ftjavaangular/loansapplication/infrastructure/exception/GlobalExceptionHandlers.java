@@ -23,6 +23,17 @@ public class GlobalExceptionHandlers {
         return ResponseEntity.badRequest().body(exceptionDto);
     }
 
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<ExceptionDTO> handleRuntimeException(RuntimeException exception) {
+        var exceptionDto = ExceptionDTO.builder()
+                .detail(exception.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .type(exception.getClass().getTypeName())
+                .build();
+
+        return ResponseEntity.badRequest().body(exceptionDto);
+    }
+
     @ExceptionHandler(value = ResourceAlreadyExists.class)
     public ResponseEntity<ExceptionDTO> handleException(ResourceAlreadyExists exception) {
         var exceptionDto = ExceptionDTO.builder()

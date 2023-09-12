@@ -7,52 +7,50 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import s1014ftjavaangular.loansapplication.domain.model.entity.JobInformation;
-import s1014ftjavaangular.loansapplication.domain.model.entity.LoanApplication;
 
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="job_information")
+@Table(name = "job_information")
 public class JobInformationEntity {
 
     @Id
-    @Column(name="loan_application_id")
+    @Column(name = "loan_application_id")
     private String loanApplicationId;
 
-    @Column(name="company",nullable = false , length = 60)
+    @Column(name = "company", nullable = false, length = 60)
     private String company;
-    @Column(name="business_category",nullable = false , length = 60)
+    @Column(name = "business_category", nullable = false, length = 60)
     private String businessCategory;
 
-    @Column(name="occupation",nullable = false, length = 60)
+    @Column(name = "occupation", nullable = false, length = 60)
     private String occupation;
 
-    @Column(name="years_in_company")
+    @Column(name = "years_in_company")
     private Integer yearsInCompany;
 
-    @Column(name="monthly_income", nullable = false)
+    @Column(name = "monthly_income", nullable = false)
     private Double monthlyIncome;
 
-    @Column(name="city", nullable = false, length = 60)
+    @Column(name = "city", nullable = false, length = 60)
     private String city;
 
-    @Column(name="state", nullable = false, length = 70)
+    @Column(name = "state", nullable = false, length = 70)
     private String state;
 
-    @Column(name="address", nullable = false, length = 80)
+    @Column(name = "address", nullable = false, length = 80)
     private String address;
 
-    @Column(name="apartment", nullable = false, length = 10)
+    @Column(name = "apartment", nullable = false, length = 10)
     private String apartment;
 
-    @Column(name="zipcode", nullable = false, length = 16)
+    @Column(name = "zipcode", nullable = false, length = 16)
     private String zipcode;
 
-    @Column(name="phone", nullable = false, length = 30)
+    @Column(name = "phone", nullable = false, length = 30)
     private String phone;
 
     @JsonIgnore
@@ -66,8 +64,8 @@ public class JobInformationEntity {
     public static final Function<JobInformation, JobInformationEntity> modelToEntity = (model) -> {
 
         JobInformationEntity entity = new JobInformationEntity();
-        entity.setLoanApplicationId( model.getLoanApplicationId() );
-        entity.setCompany( model.getCompany() );
+        entity.setLoanApplicationId(model.getLoanApplicationId());
+        entity.setCompany(model.getCompany());
         entity.setBusinessCategory(model.getBusinessCategory());
         entity.setOccupation(model.getOccupation());
         entity.setYearsInCompany(model.getYearsInCompany());
@@ -82,7 +80,7 @@ public class JobInformationEntity {
         return entity;
     };
 
-    public JobInformation entityToModel(){
+    public JobInformation entityToModel() {
         return JobInformation.builder()
                 .loanApplicationId(this.getLoanApplicationId())
                 .company(this.getCompany())

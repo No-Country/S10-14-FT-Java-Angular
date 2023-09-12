@@ -9,13 +9,14 @@ import s1014ftjavaangular.loansapplication.domain.model.entity.LoanApplication;
 import s1014ftjavaangular.loansapplication.domain.model.enums.Status;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="loans_application")
+@Table(name = "loans_application")
 public class LoanApplicationEntity {
     @Id
     @Column(name = "loan_application_id")
@@ -45,10 +46,11 @@ public class LoanApplicationEntity {
     @OneToOne(mappedBy = "loansApplicationId", cascade = CascadeType.ALL)
     private CreditAuditEntity creditAuditId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status;
 
-    public static LoanApplicationEntity modelToEntity(LoanApplication model){
+    public static LoanApplicationEntity modelToEntity(LoanApplication model) {
         return LoanApplicationEntity.builder()
                 .loanApplicationId(model.getLoanApplicationId())
                 .loanApplicationNumber(model.getLoanApplicationNumber())
@@ -57,25 +59,46 @@ public class LoanApplicationEntity {
                 .createAt(model.getCreateAt())
                 .status(model.getStatus())
 
-                .jobInformation(model.getJobInformation() != null ? JobInformationEntity.modelToEntity.apply(model.getJobInformation()) : null)
-                .guarantor(model.getGuarantor() != null ? GuarantorEntity.modelToEntity.apply(model.getGuarantor()) : null)
-                .generalData(model.getGeneralData() != null ? GeneralDataEntity.modelToEntity.apply(model.getGeneralData()) : null)
-
-                .creditAuditId(model.getCreditAuditorId() != null ? CreditAuditEntity.modelToEntity.apply(model.getCreditAuditorId()) : null)
+                .jobInformation(
+                        Optional.ofNullable( model.getJobInformation() )
+                                .flatMap(jobInformation -> Optional.of(JobInformationEntity.modelToEntity.apply(jobInformation)))
+                                .orElse(null)
+                )
+                .guarantor(
+                        Optional.ofNullable( model.getGuarantor() )
+                                .flatMap(guarantor -> Optional.of(GuarantorEntity.modelToEntity.apply(guarantor)))
+                                .orElse(null)
+                )
+                .generalData(
+                        Optional.ofNullable( model.getGeneralData() )
+                        .flatMap(generalData -> Optional.of(GeneralDataEntity.modelToEntity.apply(generalData)))
+                        .orElse(null)
+                )
+                .creditAuditId(Optional.ofNullable( model.getCreditAudit() )
+                        .flatMap(creditAudit -> Optional.of(CreditAuditEntity.modelToEntity.apply(creditAudit)))
+                        .orElse(null)
+                )
                 .build();
     }
 
-    public LoanApplication entityToModel(){
+    public LoanApplication entityToModel() {
         return LoanApplication.builder()
-                .loanApplicationId(this.getLoanApplicationId())
-                .loanApplicationNumber(this.getLoanApplicationNumber())
-                .requestedAmount(this.getRequestedAmount())
-                .customersUuid(this.getCustomersUuid())
-                .status(this.getStatus())
-                .createAt(this.getCreateAt())
-                .generalData(this.getGeneralData().entityToModel())
-                .jobInformation(this.getJobInformation() != null ? this.getJobInformation().entityToModel() : null)
-                .guarantor(this.getGuarantor() != null ? this.getGuarantor().entityToModel() : null)
+                .loanApplicationId(Optional.ofNullable( this.getLoanApplicationId() ).orElse(null))
+                .loanApplicationNumber(Optional.ofNullable( this.getLoanApplicationNumber() ).orElse(null))
+                .requestedAmount(Optional.ofNullable( this.getRequestedAmount() ).orElse(null))
+                .customersUuid(Optional.ofNullable( this.getCustomersUuid() ).orElse(null))
+                .status(Optional.ofNullable( this.getStatus() ).orElse(null))
+                .createAt(Optional.ofNullable( this.getCreateAt() ).orElse(null))
+                .generalData(Optional.ofNullable( this.getGeneralData() ).orElse(null).entityToModel())
+                .jobInformation(
+                        Optional.ofNullable( this.getJobInformation() )
+                                .flatMap(jobInformationEntity-> Optional.of(jobInformationEntity.entityToModel()))
+                                .orElse(null) )
+                .guarantor(
+                        Optional.ofNullable( this.getGuarantor() )
+                                .flatMap(guarantorEntity-> Optional.of(guarantorEntity.entityToModel()))
+                                .orElse(null)
+                )
                 .build();
 
     }

@@ -16,8 +16,8 @@ public class LoanApplicationMapper {
             LoanApplication.builder()
                     .loanApplicationId(UUID.randomUUID().toString())
                     .customersUuid(dto.getCustomersUuid())
-                    .requestedAmount( dto.getRequestedAmount() )
-                    .createAt( LocalDate.now() )
+                    .requestedAmount(dto.getRequestedAmount())
+                    .createAt(LocalDate.now())
                     .status(Status.INCOMPLETE)
                     .loanApplicationNumber(loanApplicationNumber)
                     .build();
