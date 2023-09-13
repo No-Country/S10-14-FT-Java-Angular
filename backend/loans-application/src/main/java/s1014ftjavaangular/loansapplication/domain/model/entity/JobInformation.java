@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import s1014ftjavaangular.loansapplication.domain.model.enums.WorkShift;
 
 @AllArgsConstructor
 @NoArgsConstructor

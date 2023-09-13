@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.util.StringUtils;
 import s1014ftjavaangular.userservice.domain.model.entity.User;
 
 import s1014ftjavaangular.userservice.domain.model.dto.request.AccountCreatedDto;
@@ -30,55 +31,45 @@ public class UserRepositoryAdapter implements UserRepository {
 
     @Override
     public String findLastUserNumber(String type){
-        return jpaRepository.findByNumber(type);
+        var number1 = jpaRepository.findByNumber(type);
+        var number2 = "1";//jpaRepository.findNumberByType(type);
+        log.info("Number 1: {}, Number 2: {}", number1, number2);
+        return number1;
     }
 
     @Override
     public List<User> findAll() {
         var entities = jpaRepository.findAll();
-
-        List<User> userModel = entities.stream()
-                .map((entity)-> entity.entityToModel())
+        return entities
+                .stream()
+                .map(UserEntity::entityToModel)
                 .toList();
-
-        return userModel;
     }
 
     @Override
     public List<User> findAllByType(String type) {
         var entities = jpaRepository.findAllByType(type);
-
-        List<User> userModel = entities.stream()
-                .map(entity->entity.entityToModel())
-                .collect(Collectors.toList());
-
-        return userModel;
+        return entities
+                .stream()
+                .map(UserEntity::entityToModel)
+                .toList();
     }
 
     @Override
     public Optional<User> findById(String id) {
         if(id.isEmpty()) throw new IllegalArgumentException("The id cannot be empty");
+//
+        return jpaRepository
+                .findById(id)
+                .flatMap(entity-> Optional.of( entity.entityToModel() ))
+                .or(Optional::empty);
 
-        var optionalUser = jpaRepository.findById(id);
-        if(optionalUser.isEmpty()) throw new NotFoundException("A User with the ID "+id+" is not registered");
-
-        var userModel = optionalUser.map(entity->entity.entityToModel());
-        return userModel;
     }
 
     @Override
     public void saveUser(final User model){
         if(model == null) throw new IllegalArgumentException("The model to save the user cannot be empty");
-
-        var user = new UserEntity();
-
-        user.setUserUuid(model.getId());
-        user.setName(model.getName());
-        user.setLastName(model.getLastName());
-        user.setType(model.getType());
-        user.setNumber(model.getNumber());
-        user.setBlackList(model.getBlackList());
-
+        var user = UserEntity.modelToEntity(model);
         jpaRepository.save(user);
     }
 
@@ -87,10 +78,12 @@ public class UserRepositoryAdapter implements UserRepository {
     public void update(User model) {
         //Valido que el DTO no venga en null
         if(model == null) throw new IllegalArgumentException("The User cannot be empty in Update");
-
-        var entity = UserEntity.modelToEntity(model);
-        jpaRepository.save(entity);
-
+        var entity =jpaRepository.findById(model.getId())
+                .flatMap(user->{
+                    user.update(model);
+                    return Optional.of(user);
+                })
+                .orElseThrow(()->{throw new RuntimeException("User with ID "+model.getId()+" not found");});
     }
 
 }

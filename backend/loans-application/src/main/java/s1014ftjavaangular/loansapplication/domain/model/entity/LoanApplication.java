@@ -22,6 +22,6 @@ public class LoanApplication {
     private JobInformation jobInformation;
     private Guarantor guarantor;
     private GeneralData generalData;
-    private CreditAudit creditAuditorId;
+    private CreditAudit creditAudit;
     private Status status;
 }

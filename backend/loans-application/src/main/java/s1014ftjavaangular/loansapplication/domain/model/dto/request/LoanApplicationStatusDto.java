@@ -11,6 +11,7 @@ import s1014ftjavaangular.loansapplication.domain.model.enums.Status;
 public class LoanApplicationStatusDto {
     @NotEmpty(message = "Field required")
     private String loanApplicationId;
-    @NotEmpty(message = "Field required")
+
+    @NotNull(message = "Field required")
     private Status status;
 }

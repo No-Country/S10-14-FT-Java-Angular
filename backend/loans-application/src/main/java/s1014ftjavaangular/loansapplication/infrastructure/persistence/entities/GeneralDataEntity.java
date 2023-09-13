@@ -10,7 +10,6 @@ import s1014ftjavaangular.loansapplication.domain.model.entity.GeneralData;
 import s1014ftjavaangular.loansapplication.domain.model.enums.IdentificationType;
 
 import java.time.LocalDate;
-
 import java.util.function.Function;
 
 
@@ -18,11 +17,11 @@ import java.util.function.Function;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="general_data")
+@Table(name = "general_data")
 public class GeneralDataEntity {
 
     @Id
-    @Column(name="loan_application_id")
+    @Column(name = "loan_application_id")
     private String loanApplicationId;
 
     @Column(name = "identification", nullable = false)
@@ -55,7 +54,7 @@ public class GeneralDataEntity {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name="apartment", nullable = false)
+    @Column(name = "apartment", nullable = false)
     private String apartment;
 
     @Column(name = "zipcode", nullable = false)
@@ -92,7 +91,7 @@ public class GeneralDataEntity {
         return entity;
     };
 
-    public GeneralData entityToModel(){
+    public GeneralData entityToModel() {
         return GeneralData.builder()
                 .loanApplicationId(this.getLoanApplicationId())
                 .identification(this.getIdentification())

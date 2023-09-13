@@ -7,21 +7,28 @@ import s1014ftjavaangular.userservice.domain.model.dto.response.UserResponse;
 import s1014ftjavaangular.userservice.domain.model.entity.ResidenceDetails;
 import s1014ftjavaangular.userservice.domain.model.entity.User;
 
+import java.util.Optional;
+
 @Component
 public class UserMapper {
 
     public User userDtoToModel(UserRequest request) {
+
         return User.builder()
                 .id(request.getId())
-                .identifier(request.getIdentifier())
-                .identifierNumber(request.getIdentifierNumber())
-                .genre(request.getGenre())
-                .name(request.getName())
-                .lastName(request.getLastName())
-                .nationality(request.getNationality())
-                .birthDay(request.getBirthDay())
-                .phone(request.getPhone())
-                .residenceDetails(this.residenceDetailsDtoToModel(request.getResidenceDetails()))
+                .identifier(Optional.ofNullable( request.getIdentifier() ).orElse(""))
+                .identifierNumber(Optional.ofNullable( request.getIdentifierNumber() ).orElse(""))
+                .genre(Optional.ofNullable( request.getGenre() ).orElse(null))
+                .name(Optional.ofNullable( request.getName() ).orElse(""))
+                .lastName(Optional.ofNullable( request.getLastName() ).orElse(""))
+                .nationality(Optional.ofNullable(request.getNationality() ).orElse(""))
+                .birthDay(Optional.ofNullable(request.getBirthDay() ).orElse(null))
+                .phone(Optional.ofNullable( request.getPhone() ).orElse(""))
+                .residenceDetails(
+                        Optional.ofNullable(request.getResidenceDetails())
+                                .flatMap(residenceDetailsDto -> Optional.of(this.residenceDetailsDtoToModel(residenceDetailsDto)))
+                                .orElse(null)
+                )
                 .build();
     }
 
@@ -31,22 +38,24 @@ public class UserMapper {
                 .identifier(user.getIdentifier())
                 .identifierNumber(user.getIdentifierNumber())
                 .genre(user.getGenre())
+                .type(user.getType())
+                .number(user.getNumber())
                 .name(user.getName())
                 .lastName(user.getLastName())
                 .nationality(user.getNationality())
                 .birthDay(user.getBirthDay())
                 .phone(user.getPhone())
-                .residenceDetails(this.residenceDetailsModelToDto(user.getResidenceDetails()))
+                .residenceDetails(user.getResidenceDetails() != null ? this.residenceDetailsModelToDto(user.getResidenceDetails()) : null)
                 .build();
     }
 
     public ResidenceDetails residenceDetailsDtoToModel(ResidenceDetailsDto residenceDetailsDto){
         return ResidenceDetails.builder()
-                .city(residenceDetailsDto.getCity())
-                .state(residenceDetailsDto.getState())
-                .address(residenceDetailsDto.getAddress())
-                .apartment(residenceDetailsDto.getApartment())
-                .zipCode(residenceDetailsDto.getZipCode())
+                .city(Optional.ofNullable( residenceDetailsDto.getCity() ).orElse(""))
+                .state(Optional.ofNullable( residenceDetailsDto.getState() ).orElse(""))
+                .address(Optional.ofNullable( residenceDetailsDto.getAddress() ).orElse(""))
+                .apartment(Optional.ofNullable( residenceDetailsDto.getApartment() ).orElse(""))
+                .zipCode(Optional.ofNullable( residenceDetailsDto.getZipCode() ).orElse(""))
                 .build();
     }
 

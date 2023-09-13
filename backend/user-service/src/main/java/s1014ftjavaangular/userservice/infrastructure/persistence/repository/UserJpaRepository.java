@@ -14,6 +14,11 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
     List<UserEntity> findAllByType(String type);
     Optional<UserEntity> findById(String id);
 
-    @Query(value = "SELECT MAX(u.number) FROM [user].dbo.users u WHERE u.[type] = :type", nativeQuery = true)
+    @Query(value = """
+            SELECT TOP 1 u.number
+            FROM [user].dbo.users u
+            WHERE u.[type] = :type
+            ORDER BY CAST(SUBSTRING(u.number, 1, 4) AS INT) DESC, CAST(SUBSTRING(u.number, 6, 2) AS INT) DESC
+    """, nativeQuery = true)
     String findByNumber(String type);
 }

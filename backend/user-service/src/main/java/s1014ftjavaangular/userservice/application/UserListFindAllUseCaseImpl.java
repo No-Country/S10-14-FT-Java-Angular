@@ -13,13 +13,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class UserListFindAllUseCaseImpl implements UserListFindAllUseCase {
-
     private final UserRepository userRepository;
     private final UserMapper mapper;
+
     @Override
     public List<UserResponse> findAll() {
         List<User> userDto = userRepository.findAll();
-
-        return userDto.stream().map(model-> mapper.userModelToResponse(model)).toList();
+        return userDto.stream()
+                .map(model-> mapper.userModelToResponse(model))
+                .toList();
     }
 }

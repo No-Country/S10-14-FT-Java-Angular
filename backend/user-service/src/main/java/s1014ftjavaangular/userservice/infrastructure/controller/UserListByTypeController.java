@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 public class UserListByTypeController {
     private final UserListByTypeUseCase userListByTypeUseCase;
+
     @Retry(name = "userRetry")
     @GetMapping("/type/{type}")
     public ResponseEntity<List<UserResponse>> getAllByType(@PathVariable String type){

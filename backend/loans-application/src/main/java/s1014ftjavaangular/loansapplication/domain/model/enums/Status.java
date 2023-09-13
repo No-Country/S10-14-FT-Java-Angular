@@ -1,8 +1,12 @@
 package s1014ftjavaangular.loansapplication.domain.model.enums;
 
-public enum Status {
+import java.io.Serializable;
+
+public enum Status implements Serializable {
     INCOMPLETE,
     AUDITING,
     DECLINED,
     APPROVED
+
+
 }

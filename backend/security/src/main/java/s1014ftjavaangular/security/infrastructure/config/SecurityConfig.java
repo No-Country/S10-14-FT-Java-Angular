@@ -62,6 +62,7 @@ public class SecurityConfig {
                         "/api/accounts/register",
                         "/api/accounts/login"
                 ).permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/users").hasAnyRole(Rol.ADMIN.name(), Rol.CUSTOMER.name(), Rol.EMPLOYEE.name())
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);

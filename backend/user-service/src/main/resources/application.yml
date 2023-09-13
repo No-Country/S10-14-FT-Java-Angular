@@ -63,7 +63,8 @@ resilience4j.retry:
 
 eureka:
   client:
-    fetch-registry: true
     register-with-eureka: true
+    fetch-registry: true
     service-url:
-      default-zone: https://s10-14-ft-eurekaserver.azurewebsites.net/eureka
+      #defaultZone: https://s10-14-ft-eurekaserver.azurewebsites.net/eureka/
+      defaultZone: http://localhost:8761/eureka/

@@ -1,6 +1,5 @@
 package s1014ftjavaangular.loansapplication.infrastructure.persistence.repository.generaldata;
 
-import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import s1014ftjavaangular.loansapplication.domain.model.entity.GeneralData;
@@ -11,7 +10,7 @@ import s1014ftjavaangular.loansapplication.infrastructure.persistence.entities.L
 
 @Repository
 @RequiredArgsConstructor
-public class GeneralDataRepositoryAdapter implements GeneralDataRepository{
+public class GeneralDataRepositoryAdapter implements GeneralDataRepository {
     private final GeneralDataJpaRepository jpaRepository;
 
     @Override
@@ -22,7 +21,7 @@ public class GeneralDataRepositoryAdapter implements GeneralDataRepository{
 
     @Override
     public void saveGeneralData(GeneralData model, LoanApplication loanApplication) {
-        if(model == null) throw new IllegalArgumentException("The request cannot be empty");
+        if (model == null) throw new IllegalArgumentException("The request cannot be empty");
 
         var loanApplicationEntity = LoanApplicationEntity.modelToEntity(loanApplication);
         var generalDataEntity = GeneralDataEntity.modelToEntity.apply(model);

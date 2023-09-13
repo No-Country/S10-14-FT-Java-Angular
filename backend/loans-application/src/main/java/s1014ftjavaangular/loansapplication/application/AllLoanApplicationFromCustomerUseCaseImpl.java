@@ -7,7 +7,6 @@ import s1014ftjavaangular.loansapplication.domain.repository.LoanApplicationRepo
 import s1014ftjavaangular.loansapplication.domain.usecase.AllLoanApplicationFromCustomerUseCase;
 
 import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @Service

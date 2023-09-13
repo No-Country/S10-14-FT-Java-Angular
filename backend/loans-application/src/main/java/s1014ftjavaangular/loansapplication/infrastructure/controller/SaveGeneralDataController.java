@@ -3,8 +3,6 @@ package s1014ftjavaangular.loansapplication.infrastructure.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +22,7 @@ public class SaveGeneralDataController {
     private final SaveGeneralDataUseCase useCase;
 
     @PostMapping
-    private ResponseEntity<Map<String, String>> saveGeneralData(@Valid @RequestBody GeneralDataDto request){
+    private ResponseEntity<Map<String, String>> saveGeneralData(@Valid @RequestBody GeneralDataDto request) {
         var id = useCase.saveGeneralData(request);
 
         log.info("guardé registro");

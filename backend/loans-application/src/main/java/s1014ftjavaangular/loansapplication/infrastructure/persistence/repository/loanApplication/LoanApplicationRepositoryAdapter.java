@@ -2,6 +2,7 @@ package s1014ftjavaangular.loansapplication.infrastructure.persistence.repositor
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import s1014ftjavaangular.loansapplication.domain.model.dto.LoanApplicationForCustomer;
 import s1014ftjavaangular.loansapplication.domain.model.entity.LoanApplication;
@@ -10,14 +11,17 @@ import s1014ftjavaangular.loansapplication.domain.repository.LoanApplicationRepo
 import s1014ftjavaangular.loansapplication.infrastructure.persistence.entities.LoanApplicationEntity;
 
 import java.util.List;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Repository
+@Slf4j
 public class LoanApplicationRepositoryAdapter implements LoanApplicationRepository {
     private final LoanApplicationJpaRepository jpaRepository;
 
     @Transactional
     @Override
-    public String findLastLoanApplicationNumber(){
+    public String findLastLoanApplicationNumber() {
         var lastNumber = jpaRepository.findLastLoanApplicationNumber();
         return lastNumber.isEmpty() ? "" : lastNumber.get();
     }
@@ -25,8 +29,8 @@ public class LoanApplicationRepositoryAdapter implements LoanApplicationReposito
     @Override
     public void loanApplicationOnReview(String id) {
         var entity = jpaRepository.findById(id).get();
-        if (entity.getJobInformation() == null && entity.getGuarantor() == null){
-            throw new RuntimeException("Please fill the Job Information and Guarantor fields");
+        if (entity.getJobInformation() == null){
+            throw new RuntimeException("Please fill the Job Information fields");
         }
         if (!entity.getStatus().equals(Status.INCOMPLETE)){
             throw new RuntimeException("You cannot update the loan application");
@@ -38,7 +42,7 @@ public class LoanApplicationRepositoryAdapter implements LoanApplicationReposito
     @Override
     public void updateLoanApplicationStatus(String id, Status status) {
         var entity = jpaRepository.findById(id).get();
-        if (!entity.getStatus().equals(Status.AUDITING)){
+        if (!entity.getStatus().equals(Status.AUDITING)) {
             throw new RuntimeException("It is not possible to update an application that is not being auditing");
         }
         entity.setStatus(status);
@@ -48,14 +52,16 @@ public class LoanApplicationRepositoryAdapter implements LoanApplicationReposito
     @Transactional
     @Override
     public void updateLoanApplication(Double updatedRequestedAmount, String id) {
-        var entity = jpaRepository.findById(id).get();
-        entity.setRequestedAmount(updatedRequestedAmount);
-        jpaRepository.save(entity);
+        jpaRepository.findById(id).map(entity->{
+            entity.setRequestedAmount(updatedRequestedAmount);
+            return entity;
+        });
+
     }
 
     @Override
     public List<LoanApplicationForCustomer> findByCustomerId(String customerId) {
-        if(customerId == null) throw new IllegalArgumentException("Identification cannot be empty");
+        if (customerId == null) throw new IllegalArgumentException("Identification cannot be empty");
 
         var response = jpaRepository.findByCustomerId(customerId);
         return response.isEmpty() ? List.of() : response.get();
@@ -64,25 +70,27 @@ public class LoanApplicationRepositoryAdapter implements LoanApplicationReposito
     @Transactional
     @Override
     public Integer countOfInactiveOrAuditingLoanApplicatin(String identification) {
-        if(identification == null) throw new IllegalArgumentException("Identification cannot be empty");
+        if (identification == null) throw new IllegalArgumentException("Identification cannot be empty");
 
         return jpaRepository.countIncompleteOrAuditingStatusLoanApplication(identification);
     }
 
     @Override
     public LoanApplication findById(String id) {
-        if(id == null) throw new IllegalArgumentException("ID cannot be empty");
+        if (id == null) throw new IllegalArgumentException("ID cannot be empty");
 
-        var loan = jpaRepository.findById(id);
-
-        return loan.isEmpty()
-                ? null
-                : loan.map(entity-> entity.entityToModel()).get();
+        return jpaRepository
+                .findById(id)
+                .flatMap(loanApplicationEntity -> {
+                    log.info("LOAN APP ENTITY: {}", loanApplicationEntity);
+                    return Optional.of(loanApplicationEntity.entityToModel());
+                })
+                .orElse(null);
     }
 
     @Override
     public void saveLoanApplication(LoanApplication model) {
-        if(model == null) throw new IllegalArgumentException("The request cannot be empty");
+        if (model == null) throw new IllegalArgumentException("The request cannot be empty");
 
         jpaRepository.save(LoanApplicationEntity.modelToEntity(model));
     }
