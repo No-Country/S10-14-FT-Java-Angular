@@ -68,11 +68,10 @@ public class LoanApplicationRepositoryAdapter implements LoanApplicationReposito
     }
 
     @Transactional
-    @Override
-    public Integer countOfInactiveOrAuditingLoanApplicatin(String identification) {
+    public Integer countOfInactiveOrAuditingLoanApplication(String identification, String customerId) {
         if (identification == null) throw new IllegalArgumentException("Identification cannot be empty");
 
-        return jpaRepository.countIncompleteOrAuditingStatusLoanApplication(identification);
+        return jpaRepository.countIncompleteOrAuditingStatusLoanApplication(identification, customerId);
     }
 
     @Override

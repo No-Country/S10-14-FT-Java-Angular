@@ -20,7 +20,7 @@ public interface LoanApplicationRepository {
 
     String findLastLoanApplicationNumber();
 
-    Integer countOfInactiveOrAuditingLoanApplicatin(final String identification);
+    Integer countOfInactiveOrAuditingLoanApplication(final String identification, final String customerId);
 
     void loanApplicationOnReview(String id);
 

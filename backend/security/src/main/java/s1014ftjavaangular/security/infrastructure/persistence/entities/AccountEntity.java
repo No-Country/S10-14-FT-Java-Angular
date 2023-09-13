@@ -34,7 +34,6 @@ public class AccountEntity implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "rol", nullable = false)
     private Rol rol;
 

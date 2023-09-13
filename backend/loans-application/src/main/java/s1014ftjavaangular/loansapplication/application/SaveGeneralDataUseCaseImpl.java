@@ -3,7 +3,6 @@ package s1014ftjavaangular.loansapplication.application;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import s1014ftjavaangular.loansapplication.domain.mapper.GeneralDataMapper;
 import s1014ftjavaangular.loansapplication.domain.mapper.LoanApplicationMapper;
 import s1014ftjavaangular.loansapplication.domain.model.dto.request.GeneralDataDto;
@@ -27,7 +26,7 @@ public class SaveGeneralDataUseCaseImpl implements SaveGeneralDataUseCase {
     @Override
     public String saveGeneralData(GeneralDataDto request) {
 
-        var countIncompleteOrAuditingLoanApplication = loanApplicationRepository.countOfInactiveOrAuditingLoanApplicatin(request.getIdentification());
+        var countIncompleteOrAuditingLoanApplication = loanApplicationRepository.countOfInactiveOrAuditingLoanApplication(request.getIdentification(), request.getCustomersUuid());
 
         if (countIncompleteOrAuditingLoanApplication == 1) {
             throw new RuntimeException("Cannot create new request because you already have one in 'AUDITING' or 'INCOMPLETE' status");

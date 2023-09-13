@@ -2,11 +2,16 @@ package s1014ftjavaangular.userservice.infrastructure.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import s1014ftjavaangular.userservice.domain.model.dto.response.ExceptionDTO;
 import s1014ftjavaangular.userservice.domain.model.exception.ResourceAlreadyExists;
 import s1014ftjavaangular.userservice.domain.model.exception.UserNotFoundException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandlers {
@@ -54,5 +59,17 @@ public class GlobalExceptionHandlers {
                 .build();
 
         return new ResponseEntity<>(exceptionDto, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String,String>> handleMethodArgumentException(MethodArgumentNotValidException ex) {
+        Map<String, String> errores = new HashMap<>();
+
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+            String name = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+            errores.put(name, message);
+        });
+        return new ResponseEntity<>(errores, HttpStatus.BAD_REQUEST);
     }
 }
