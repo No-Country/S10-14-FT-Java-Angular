@@ -36,7 +36,7 @@ public interface LoanApplicationJpaRepository extends JpaRepository<LoanApplicat
             SELECT COUNT(*) 
             FROM loans_application AS la 
             INNER JOIN general_data AS gd ON  la.loan_application_id = gd.loan_application_id
-            WHERE (la.status = 1 OR la.status = 0) AND gd.identification = :identification
+            WHERE (la.status = 'INCOMPLETE' OR la.status = 'AUDITING') AND gd.identification = :identification
             """, nativeQuery = true)
     Integer countIncompleteOrAuditingStatusLoanApplication(String identification);
 }

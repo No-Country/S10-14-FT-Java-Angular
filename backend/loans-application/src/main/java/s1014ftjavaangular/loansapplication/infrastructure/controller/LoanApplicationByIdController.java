@@ -14,7 +14,7 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/loansapplication")
+@RequestMapping("/api/v1/loanapplication")
 public class LoanApplicationByIdController {
     private final LoanApplicationByIdUseCase useCase;
 
