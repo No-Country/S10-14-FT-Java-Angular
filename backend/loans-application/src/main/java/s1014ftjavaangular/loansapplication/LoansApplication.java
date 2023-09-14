@@ -7,7 +7,7 @@ import org.springframework.cloud.commons.util.InetUtils;
 import org.springframework.cloud.netflix.eureka.EurekaClientConfigBean;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Map;
+
 
 @EnableDiscoveryClient
 @SpringBootApplication
@@ -17,6 +17,7 @@ public class LoansApplication {
 		SpringApplication.run(LoansApplication.class, args);
 	}
 
+
 	@Bean
 	public EurekaClientConfigBean eurekaInstanceConfig(InetUtils inetUtils) {
 		var config = new EurekaClientConfigBean();
@@ -25,5 +26,6 @@ public class LoansApplication {
 
 		return config;
 	}
+
 
 }

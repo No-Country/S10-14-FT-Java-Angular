@@ -10,14 +10,15 @@ import s1014ftjavaangular.userservice.domain.model.enums.Genre;
 import s1014ftjavaangular.userservice.domain.model.enums.CivilStatus;
 import s1014ftjavaangular.userservice.domain.model.entity.PhoneDetails;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Builder
-public class UserRequest {
+public class UserRequest implements Serializable {
     @NotEmpty(message = "ID cannot be empty")
     private String id;
     private String identifier;

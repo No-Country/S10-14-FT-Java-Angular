@@ -6,6 +6,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { GeneralDataResponse } from '../models/general-data-response';
 import { JobInformationRequest } from '../models/job-information-request';
 import { GuarantorRequest } from '../models/guarantor-request';
+import { ConfirmResponse } from '../models/confirm-response';
 
 
 @Injectable({
@@ -30,6 +31,10 @@ export class LoansApplicationService {
     return this.http.post<any>(this.apiUrl + 'guarantor', data).pipe(
       catchError(this.handleError)
     )
+  }
+
+  public findLoanApplication(id: string):Observable<ConfirmResponse>{
+    return this.http.get<ConfirmResponse>(this.apiUrl + 'loanapplication/' + 'confirm/' + `${id}`);
   }
 
   private handleError(err:HttpErrorResponse){

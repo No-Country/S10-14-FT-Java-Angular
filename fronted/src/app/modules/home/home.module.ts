@@ -26,7 +26,8 @@ import { ConfirmationComponent } from './pages/confirmation/confirmation.compone
 
     GaranteComponent,
     InformaLaboralComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+
   ],
   imports: [
     CommonModule,

@@ -6,20 +6,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import s1014ftjavaangular.loansapplication.domain.model.dto.request.LoanApplicationDto;
-import s1014ftjavaangular.loansapplication.domain.usecase.FindByIdLoanAppUseCase;
+import s1014ftjavaangular.loansapplication.domain.model.dto.response.ConfirmDataLoanApplicationDto;
+import s1014ftjavaangular.loansapplication.domain.usecase.ConfirmDataLoanApplicationUseCase;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/loanapplication")
-public class LoanAppFindByIdController {
-    private final FindByIdLoanAppUseCase useCase;
+public class ConfirmLoanApplicationController {
 
-    @GetMapping("/{id}")
-    public ResponseEntity<LoanApplicationDto> getAllById(@PathVariable String id){
+    private final ConfirmDataLoanApplicationUseCase useCase;
+
+    @GetMapping(value = "/confirm/{id}")
+    public ResponseEntity<ConfirmDataLoanApplicationDto> findLoanApplication(@PathVariable("id") String id){
         var response = useCase.findById(id);
-
-        return response == null
+        return (response == null)
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(response);
     }

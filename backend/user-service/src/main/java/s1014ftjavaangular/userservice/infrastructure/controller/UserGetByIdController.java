@@ -15,8 +15,9 @@ import s1014ftjavaangular.userservice.domain.usecase.UserListByIdUseCase;
 @RestController
 public class UserGetByIdController {
     private final UserListByIdUseCase userListByIdUseCase;
+
     @Retry(name = "userRetry")
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getAllById(@PathVariable String id){
         var response = userListByIdUseCase.findById(id);
 

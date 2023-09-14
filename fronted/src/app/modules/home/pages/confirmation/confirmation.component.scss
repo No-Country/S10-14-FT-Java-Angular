@@ -31,3 +31,22 @@ tbody{
   background: #FAFAFA;
 
 }
+/* Estilos personalizados para el cuadro de diálogo de Swal */
+.my-custom-alert {
+  background-color: #fff; /* Color de fondo */
+  border-radius: 10px; /* Bordes redondeados */
+  padding: 20px; /* Espacio interno */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+  text-align: center; /* Alineación del texto */
+  font-family: 'Arial', sans-serif; /* Fuente del texto */
+}
+
+.my-custom-alert .swal-title {
+  font-size: 24px; /* Tamaño de la fuente para el título */
+  color: #4CAF50; /* Color del título */
+}
+
+.my-custom-alert .swal-html-container {
+  font-size: 18px; /* Tamaño de la fuente para el contenido */
+  color: #333; /* Color del contenido */
+}

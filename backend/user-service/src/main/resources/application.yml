@@ -67,3 +67,4 @@ eureka:
     service-url:
       #default-zone: https://s10-14-ft-eurekaserver.azurewebsites.net/eureka
       default-zone: http://localhost:8761/eureka
+

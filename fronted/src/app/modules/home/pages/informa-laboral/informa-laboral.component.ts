@@ -80,10 +80,21 @@ export class InformaLaboralComponent implements OnInit{
           },
           complete: () =>{
             console.log('Datos guardados correctamente');
-            alert("Datos guardados");
-            setTimeout(() => {
-              this.router.navigateByUrl('/home/garante');
-            },1000);
+            Swal.fire({
+              //position: 'center',
+              icon: 'success',
+              title: 'Datos guardados!',
+              //text: 'OK',
+              confirmButtonText: 'OK'
+
+
+            }).then((result) => {
+              if(result.isConfirmed){
+                setTimeout(() => {
+                  this.router.navigateByUrl('/home/garante');
+                },1000);
+              }
+            })
 
           },
         });

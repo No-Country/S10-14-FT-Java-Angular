@@ -29,7 +29,7 @@ spring:
           predicates:
             - Path=/api/accounts/current-session
           filters:
-            - JwtAuthenticationFilter
+            - CustomAuthenticationFilter
 
         - id: security
           #uri: https://s10-14-ft-api-security.azurewebsites.net
@@ -42,14 +42,14 @@ spring:
           predicates:
             - Path=/api/**
           filters:
-            - JwtAuthenticationFilter
+            - CustomAuthenticationFilter
         - id: loans-application
           #uri: https://s10-14-ft-api-users.azurewebsites.net
           uri: lb://loans-application
           predicates:
             - Path=/api/v1/**
           filters:
-            - JwtAuthenticationFilter
+            - CustomAuthenticationFilter
         - id: user-service-swagger
           uri: https://s10-14-ft-api-users.azurewebsites.net
           predicates:

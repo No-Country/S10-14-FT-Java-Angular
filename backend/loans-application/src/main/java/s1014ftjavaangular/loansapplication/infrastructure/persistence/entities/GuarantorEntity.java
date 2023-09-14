@@ -19,7 +19,6 @@ import java.util.function.Function;
 @Entity
 @Table(name="guarantor")
 public class GuarantorEntity {
-
     @Id
     @Column(name="loan_application_id")
     private String loanApplicationId;

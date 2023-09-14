@@ -66,6 +66,7 @@ export class LoginComponent implements OnInit{
         complete: () => {
           console.info("Login completo");
           setTimeout(() => {
+
             this.router.navigateByUrl('home/general');
           },2000);
 

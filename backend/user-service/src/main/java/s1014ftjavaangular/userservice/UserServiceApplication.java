@@ -25,4 +25,5 @@ public class UserServiceApplication {
 
 		return config;
 	}
+
 }

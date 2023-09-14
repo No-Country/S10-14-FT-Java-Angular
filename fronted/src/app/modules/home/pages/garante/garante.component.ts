@@ -27,7 +27,7 @@ export class GaranteComponent implements OnInit{
       this.guarantorForm = formBuilder.group({
         name: ['', Validators.required],
         lastname:['', Validators.required],
-        identificationType:['', Validators.required],
+        identificationType:['DNI', Validators.required],
         identification:['', Validators.required],
         city:['', Validators.required],
         state:['', Validators.required],
@@ -127,24 +127,36 @@ export class GaranteComponent implements OnInit{
         },
         complete: () =>{
           console.log('Datos guardados correctamente');
-
-            Swal.fire({
-              //position: 'center',
-              icon: 'success',
-              title: 'Gracias por elegirnos!',
-              html: '<div style="font-size: 18px; color: #333;">Tu solicitud se ha cargado exitosamente y se encuentra en revisión. Nos comunicaremos contigo a la brevedad.</div>',
-              confirmButtonText: 'OK'
-
-
-            }).then((result) => {
-              if(result.isConfirmed){
-                setTimeout(() => {
-                  this.router.navigateByUrl('/home/confirm');
-                },1000);
-              }
-            })
+          Swal.fire({
+            //position: 'center',
+            icon: 'success',
+            title: 'Datos guardados!',
+            // text: 'OK',
+            confirmButtonText: 'OK'
 
 
+          }).then((result) => {
+            if(result.isConfirmed){
+              setTimeout(() => {
+                this.router.navigateByUrl('/home/confirm');
+              },1000);
+            }
+          })
+            // Swal.fire({
+            //   //position: 'center',
+            //   icon: 'success',
+            //   title: 'Gracias por elegirnos!',
+            //   html: '<div style="font-size: 18px; color: #333;">Tu solicitud se ha cargado exitosamente y se encuentra en revisión. Nos comunicaremos contigo a la brevedad.</div>',
+            //   confirmButtonText: 'OK'
+
+
+            // }).then((result) => {
+            //   if(result.isConfirmed){
+            //     setTimeout(() => {
+            //       this.router.navigateByUrl('/home/confirm');
+            //     },1000);
+            //   }
+            // })
         }
       })
     }else{

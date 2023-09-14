@@ -35,7 +35,7 @@ export class GeneralMaterialComponent implements OnInit{
         identificationType: ['DNI', Validators.required],
         name:['', Validators.required],
         lastname:['', Validators.required],
-        genre:['', Validators.required],
+        genre:['Masculino', Validators.required],
         birthdate:['',Validators.required],
         nationality:['', Validators.required],
         requestedAmount:['', Validators.required],
@@ -91,10 +91,25 @@ export class GeneralMaterialComponent implements OnInit{
           },
           complete: () => {
             console.log('Datos guardados correctamente');
-            alert('Datos guardados exitosamente');
-            setTimeout(() => {
-              this.router.navigateByUrl('/home/informeLa');
-            },1000);
+            //alert('Datos guardados exitosamente');
+
+              Swal.fire({
+                //position: 'center',
+                icon: 'success',
+                title: 'Datos guardados!',
+                // text: 'OK',
+                confirmButtonText: 'OK'
+
+
+              }).then((result) => {
+                if(result.isConfirmed){
+                  setTimeout(() => {
+                    this.router.navigateByUrl('/home/informeLa');
+                  },1000);
+                }
+              })
+
+
           },
         });
     } else {

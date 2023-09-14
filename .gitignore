@@ -3,5 +3,9 @@
 *.iws
 *.iml
 *.ipr
+<<<<<<< HEAD
 # Local Netlify folder
 .netlify
+=======
+backend/.idea
+>>>>>>> 0bdfb76d059d01b4589c1361f27748c4df95da36

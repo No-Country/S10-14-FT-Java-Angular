@@ -7,7 +7,7 @@ import org.springframework.cloud.commons.util.InetUtils;
 import org.springframework.cloud.netflix.eureka.EurekaClientConfigBean;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Map;
+
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -16,6 +16,7 @@ public class SecurityApplication {
         SpringApplication.run(SecurityApplication.class, args);
     }
 
+
     @Bean
     public EurekaClientConfigBean eurekaInstanceConfig(InetUtils inetUtils) {
         var config = new EurekaClientConfigBean();
@@ -23,6 +24,7 @@ public class SecurityApplication {
         //config.setServiceUrl(Map.of("defaultZone", "http://localhost:8761/eureka"));
         return config;
     }
+
 
 
 }

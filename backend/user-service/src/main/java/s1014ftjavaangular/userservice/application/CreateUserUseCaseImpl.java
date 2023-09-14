@@ -1,14 +1,19 @@
 package s1014ftjavaangular.userservice.application;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import s1014ftjavaangular.userservice.domain.model.dto.request.AccountCreatedDto;
 import s1014ftjavaangular.userservice.domain.model.entity.User;
 import s1014ftjavaangular.userservice.domain.repository.UserRepository;
 import s1014ftjavaangular.userservice.domain.usecase.CreateUserUseCase;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreateUserUseCaseImpl implements CreateUserUseCase {
@@ -17,9 +22,10 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     @Override
     public void saveUser(final AccountCreatedDto message){
         var lastUserNumber = repository.findLastUserNumber(message.getAccountRol());
-        Integer actualYear = LocalDate.now().getYear();
+        log.info("Last user number: {}", lastUserNumber);
         var nextCustomerNumber = getCustomerActualCustomerNumber(lastUserNumber);
-        String customerNumber = actualYear+"-"+nextCustomerNumber;
+        String customerNumber = LocalDate.now().getYear()+"-"+nextCustomerNumber;
+        log.info("Next number: {}", customerNumber);
 
         var model = User.builder()
                 .id(message.getAccountUuid())
@@ -34,20 +40,11 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     }
 
     private String getCustomerActualCustomerNumber(String lastUserNumber) {
-
-        if (lastUserNumber == null || lastUserNumber.isEmpty()) {
-            return "1";
-        } else {
-            int separatorIndex = lastUserNumber.indexOf("-");
-
-            if (separatorIndex != -1 && separatorIndex + 1 < lastUserNumber.length()) {
-                String numeration = lastUserNumber.substring(separatorIndex + 1);
-                int number = Integer.parseInt(numeration.trim());
-                number++;
-                return String.valueOf(number);
-            } else {
-                return "1";
-            }
-        }
+        return Optional.ofNullable( lastUserNumber )
+                .filter(lastNumber-> lastNumber.indexOf("-") == 4 && lastNumber.split("-").length == 2)
+                .flatMap(lastNumber-> Optional.of( Integer.valueOf( lastNumber.split("-")[1] ) ))
+                .flatMap(number-> Optional.of( String.valueOf( ++number ) ) )
+                .orElse("1");
     }
+
 }
